@@ -1,0 +1,35 @@
+{
+  "name": "v1webdesign",
+  "version": "1.0.0",
+  "description": "V1 Web Design - Professional websites for small businesses in Carlsbad, CA",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "start-node": "npx http-server . -p 8000 -c-1",
+    "build": "echo 'Static site - no build step required'",
+    "deploy": "echo 'Push to GitHub and deploy via Render'",
+    "test": "echo 'No tests configured'",
+    "lighthouse": "npx lighthouse http://localhost:8000 --output html --output-path lighthouse-report.html",
+    "validate-html": "npx html-validator --file index.html",
+    "optimize-images": "echo 'Image optimization can be added with imagemin-cli'",
+    "check-links": "echo 'Link checking can be added with broken-link-checker'"
+  },
+  "keywords": [
+    "web-design",
+    "small-business",
+    "carlsbad",
+    "website",
+    "static-site"
+  ],
+  "author": "V1 Web Design",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/v1webdesign"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "lighthouse": "^11.0.0",
+    "html-validator": "^6.1.5"
+  }
+}
