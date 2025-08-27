@@ -29,7 +29,7 @@ class LAPCalculator {
                     let value = e.target.value.replace(/[^0-9.]/g, '');
                     
                     // Ensure only one decimal point
-                    const decimalCount = (value.match(/\\./g) || []).length;
+                    const decimalCount = (value.match(/\./g) || []).length;
                     if (decimalCount > 1) {
                         value = value.substring(0, value.lastIndexOf('.'));
                     }
@@ -38,8 +38,8 @@ class LAPCalculator {
                 });
 
                 input.addEventListener('blur', (e) => {
-                    // Format to 2 decimal places on blur
-                    if (e.target.value && !isNaN(e.target.value)) {
+                    // Format to 2 decimal places on blur if valid number
+                    if (e.target.value && !isNaN(e.target.value) && e.target.value.trim() !== '') {
                         e.target.value = parseFloat(e.target.value).toFixed(2);
                     }
                 });
@@ -80,6 +80,8 @@ class LAPCalculator {
 
     calculateLAP() {
         try {
+            console.log('Starting calculation...');
+            
             // Get input values
             const hoursLate = parseFloat(document.getElementById('hoursLate').value);
             const hourlyRate = parseFloat(document.getElementById('hourlyRate').value);
@@ -87,15 +89,22 @@ class LAPCalculator {
             const dutyTime = parseFloat(document.getElementById('dutyTime').value);
             const flightTypeThreshold = parseFloat(document.getElementById('flightType').value);
 
+            console.log('Input values:', { hoursLate, hourlyRate, legTime, dutyTime, flightTypeThreshold });
+
             // Validation
             if (!this.validateInputs(hoursLate, hourlyRate, legTime, dutyTime, flightTypeThreshold)) {
+                console.log('Validation failed');
                 return;
             }
+
+            console.log('Validation passed');
 
             // Calculate components
             const calculations = this.performCalculations(
                 hoursLate, hourlyRate, legTime, dutyTime, flightTypeThreshold
             );
+
+            console.log('Calculations:', calculations);
 
             // Display results
             this.displayResults(calculations);
@@ -114,12 +123,17 @@ class LAPCalculator {
     }
 
     validateInputs(hoursLate, hourlyRate, legTime, dutyTime, flightTypeThreshold) {
+        // Check if flight type is selected
+        if (isNaN(flightTypeThreshold) || flightTypeThreshold === '') {
+            alert('Please select a flight type (Domestic or International).');
+            return false;
+        }
+
         const inputs = [
             { value: hoursLate, name: 'Hours Late' },
             { value: hourlyRate, name: 'Hourly Rate' },
             { value: legTime, name: 'Leg Time' },
-            { value: dutyTime, name: 'Duty Time' },
-            { value: flightTypeThreshold, name: 'Flight Type' }
+            { value: dutyTime, name: 'Duty Time' }
         ];
 
         for (const input of inputs) {
@@ -262,18 +276,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function addVisualEnhancements() {
-    // Add loading states to buttons
+    // Add loading states to buttons - but don't disable them to prevent form submission issues
     const buttons = document.querySelectorAll('button[type="submit"]');
     buttons.forEach(button => {
         button.addEventListener('click', function() {
             const originalText = this.textContent;
             this.textContent = 'Calculating...';
-            this.disabled = true;
             
+            // Re-enable after a short delay without blocking form submission
             setTimeout(() => {
                 this.textContent = originalText;
-                this.disabled = false;
-            }, 1000);
+            }, 1500);
         });
     });
 
