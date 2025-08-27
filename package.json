@@ -30,6 +30,6 @@
   "devDependencies": {
     "http-server": "^14.1.1",
     "lighthouse": "^11.0.0",
-    "html-validator": "^6.1.5"
+    "html-validator": "^6.0.0"
   }
 }
