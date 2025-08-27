@@ -14,16 +14,6 @@ class LAPCalculator {
             this.calculateLAP();
         });
 
-        // Navigation toggle for mobile
-        const navToggle = document.getElementById('nav-toggle');
-        const navMenu = document.querySelector('.nav-menu');
-        
-        if (navToggle && navMenu) {
-            navToggle.addEventListener('click', () => {
-                navMenu.classList.toggle('active');
-            });
-        }
-
         // Input validation and formatting
         this.setupInputValidation();
     }
